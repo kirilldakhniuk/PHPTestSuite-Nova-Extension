@@ -5,7 +5,10 @@
     "description": "Simple way to run PHP tests.",
     "version": "0.0.1",
     "categories": ["sidebars", "commands"],
-    
+    "bugs": {
+        "url": "https://github.com/KirillDakhnyuk/PHPTestSuite-Nova-Extension/issues"
+    },
+    "homepage": "https://github.com/KirillDakhnyuk/PHPTestSuite-Nova-Extension#readme",
     "main": "main.js",
     
     "activationEvents": [
