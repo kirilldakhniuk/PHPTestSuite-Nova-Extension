@@ -1,5 +1,5 @@
 {
-    "identifier": "org.PhpTestSuite",
+    "identifier": "kirilldakhnyuk.php-test-suite",
     "name": "PHP Test Suite",
     "organization": "Kirill Dakhnyuk",
     "description": "Simple way to run PHP tests.",
