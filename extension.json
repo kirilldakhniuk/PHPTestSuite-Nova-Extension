@@ -1,0 +1,59 @@
+{
+    "identifier": "org.PhpTestSuite",
+    "name": "PHP Test Suite",
+    "organization": "Kirill Dakhnyuk",
+    "description": "Simple way to run PHP tests.",
+    "version": "0.0.1",
+    "categories": ["sidebars", "commands"],
+    
+    "main": "main.js",
+    
+    "activationEvents": [
+        "onLanguage:javascript"
+    ],
+    
+    "entitlements": {
+        "filesystem": "readwrite", "process": true
+    },
+    
+    "sidebars": [
+        {
+            "id": "phptestsuite",
+            "name": "PHP Test Suite",
+            "smallImage": "sidebar-icon-small",
+            "smallSelectedImage": "sidebar-icon-small",
+            "largeImage": "sidebar-icon-small",
+            "largeSelectedImage": "sidebar-icon-small",
+            "sections": [
+                {
+                    "id": "phptestsuite",
+                    "name": "PHP Test Suite",
+                    "allowMultiple": false,
+                    "contextCommands": [
+                        {
+                            "title": "Run",
+                            "command": "phptestsuite.runFile",
+                            "when": "viewItem != null"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    
+    "commands": {
+        "editor": [],
+        "extensions": [
+            {
+                "title": "PHP Test Suite: Run File",
+                "command": "phptestsuite.runFile"
+            }
+        ],
+        "workspace": [
+            {
+                "title": "PHP Test Suite: Run File",
+                "command": "phptestsuite.runFile"
+            }
+        ]
+    }
+}
