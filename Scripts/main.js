@@ -48,6 +48,28 @@ nova.commands.register("phptestsuite.runAll", (editor) => {
   runTestProcess();
 });
 
+nova.commands.register("phptestsuite.runNearest", (editor) => {  
+  let start = editor.activeTextEditor.selectedRange.start;
+  let end = editor.activeTextEditor.selectedRange.end;
+  
+  let method;
+  
+  while (start > 0) {
+    let lineText = editor.activeTextEditor.document.getTextInRange(editor.activeTextEditor.getLineRangeForRange(new Range(start, end)));
+    
+    method = getTestMethod(lineText);
+    
+    if (method) {
+      break;
+    }
+    
+    start = start - 1;
+    end = end - 1;
+  }
+  
+  runTestProcess(method);
+});
+
 nova.commands.register("phptestsuite.doubleClick", () => {    
     let selection = treeView.selection;
     
@@ -81,6 +103,20 @@ function getTestRunner() {
   const fileContent = nova.fs.open(nova.path.join(nova.workspace.path, 'composer.json'));
   
   return fileContent.read().includes('"pestphp/pest"') ? "vendor/bin/pest" : "vendor/bin/phpunit";
+}
+
+function getTestMethod(text) {
+  const matchPest = text.trim().match(/^\s*(?:it|test)\(([^,)]+)/m);
+  
+  const matchUnit = text.trim().match(/^\s*(?:public|private|protected)?\s*function\s*(\w+)\s*\(.*$/);
+  
+  if (matchPest) {
+    return matchPest[1].replace(/["']/g, "");
+  } else if (matchUnit) {
+    return matchUnit[1].replace(/["']/g, "");
+  }
+  
+  return null;
 }
 
 function runTestProcess(test = null) {
@@ -177,16 +213,11 @@ class TestDataProvider {
         let hasTests = false;
         
         fileContent.readlines().forEach((line) => {
-          const matchPest = line.trim().match(/^\s*(?:it|test)\(([^,)]+)/m);
-
-          const matchUnit = line.trim().match(/^\s*(?:public|private|protected)?\s*function\s*(\w+)\s*\(.*$/);
-            
-          if (matchPest) {
-              element.addChild(new TestItem(matchPest[1].replace(/["']/g, "")));
-              hasTests = true;
-          } else if (matchUnit) {
-              element.addChild(new TestItem(matchUnit[1].replace(/["']/g, "")));
-              hasTests = true;
+          const method = getTestMethod(line);
+          
+          if (method) {
+            element.addChild(new TestItem(method));
+            hasTests = true;
           }
        });
        
