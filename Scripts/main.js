@@ -41,6 +41,8 @@ nova.commands.register("phptestsuite.runFile", (editor) => {
   const parts = editor.activeTextEditor.document.path.split('/');
   const testFilename = parts[parts.length - 1].replace('.php', '');
   
+  nova.workspace.config.set('latestTest', testFilename);
+  
   runTestProcess(testFilename);
 });
 
@@ -67,8 +69,21 @@ nova.commands.register("phptestsuite.runNearest", (editor) => {
     end = end - 1;
   }
   
+  nova.workspace.config.set('latestTest', method);
+  
   runTestProcess(method);
 });
+
+nova.commands.register("phptestsuite.runLatest", (editor) => {
+  const latest = nova.workspace.config.get('latestTest');
+  
+  if (latest) {
+    runTestProcess(latest);
+  } else {
+    nova.workspace.showInformativeMessage('You need to run test first.');
+  }
+});
+
 
 nova.commands.register("phptestsuite.doubleClick", () => {    
     let selection = treeView.selection;

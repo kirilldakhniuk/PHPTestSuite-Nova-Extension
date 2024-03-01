@@ -1,7 +1,7 @@
-👋 Hello! The extension still in the early development phase. Bugs and odd behaviours are expected 😅.
+👋 Hello! The extension still in the early development phase.
 
 
-**PHPTestSuite** provides sidebar integration with **PHPUnit** and **PEST** testing tools.
+**PHPTestSuite** provides integration for **PHPUnit** and **PEST**.
 
 ## Requirements
 
@@ -10,7 +10,7 @@
 ## Usage
 
 * Use PHPTestSuite sidebar (double click on the test inside a file will run it or use context menu to run a file)
-- Open the command palette and type `PhpTestSuite`, `RunFile`, etc.
+- Open the command palette and type `PhpTestSuite`, `RunFile`, `RunNearest`, `RunLatest`, etc.
 
 ### Configuration
 🎈 There's no configuration at this point.

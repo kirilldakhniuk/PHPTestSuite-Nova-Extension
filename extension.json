@@ -3,7 +3,7 @@
     "name": "PHP Test Suite",
     "organization": "Kirill Dakhnyuk",
     "description": "Simple way to run PHP tests.",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "categories": ["sidebars", "commands"],
     "bugs": {
         "url": "https://github.com/KirillDakhnyuk/PHPTestSuite-Nova-Extension/issues"
@@ -51,6 +51,14 @@
                 "title": "PHP Test Suite: Run File",
                 "command": "phptestsuite.runFile",
                 "shortcut": "option-command-t",
+                "filters": {
+                    "syntaxes": ["php"]
+                }
+            },
+            {
+                "title": "PHP Test Suite: Run Latest",
+                "command": "phptestsuite.runLatest",
+                "shortcut": "option-command-l",
                 "filters": {
                     "syntaxes": ["php"]
                 }
