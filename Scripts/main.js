@@ -146,11 +146,11 @@ function runTestProcess(test = null) {
       stdio: ["ignore", "pipe", "pipe"],
   });
   
-  let errOutput = "\n\n";
+  let output = "\n\n";
   
   try {
       process.onStdout(function(line) {
-        errOutput += line;
+        output += line;
       });
       
       process.start();
@@ -159,7 +159,7 @@ function runTestProcess(test = null) {
   }
   
   process.onDidExit(() => {
-    nova.workspace.showActionPanel(errOutput);
+    nova.workspace.showInformativeMessage(output.substr(1, 2000));
   });
 }
 
