@@ -2,8 +2,8 @@
     "identifier": "kirilldakhnyuk.php-test-suite",
     "name": "PHP Test Suite",
     "organization": "Kirill Dakhnyuk",
-    "description": "Simple way to run PHP tests.",
-    "version": "0.0.4",
+    "description": "An easy way to run PHP tests in Laravel and other PHP projects.",
+    "version": "0.0.5",
     "categories": ["sidebars", "commands"],
     "bugs": {
         "url": "https://github.com/KirillDakhnyuk/PHPTestSuite-Nova-Extension/issues"

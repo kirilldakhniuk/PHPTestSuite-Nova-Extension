@@ -1,3 +1,6 @@
+## Version 0.0.5
+Fixed an issue with displaying non-test classes in the sidebar.
+
 ## Version 0.0.4
 * Updated the info modal to only be 2000 chars long to avoid modal window overlap. This is probably a bug in Nova (reported).
 

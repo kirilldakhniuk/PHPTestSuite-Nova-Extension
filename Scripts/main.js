@@ -1,5 +1,6 @@
 var treeView = null;
 var testRunner = null;
+var isPest = true;
 
 
 exports.activate = function() {
@@ -12,7 +13,7 @@ exports.activate = function() {
     });
     
     treeView.onDidChangeSelection((selection) => {
-        // console.log("New selection: " + selection.map((e) => e.name));
+      //
     });
     
     treeView.onDidExpandElement((element) => {
@@ -117,7 +118,13 @@ function getTestRunner() {
   
   const fileContent = nova.fs.open(nova.path.join(nova.workspace.path, 'composer.json'));
   
-  return fileContent.read().includes('"pestphp/pest"') ? "vendor/bin/pest" : "vendor/bin/phpunit";
+  if (! fileContent.read().includes('"pestphp/pest"')) {
+    isPest = false;
+    
+    return "vendor/bin/phpunit";
+  }
+  
+  return "vendor/bin/pest";
 }
 
 function getTestMethod(text) {
@@ -159,8 +166,28 @@ function runTestProcess(test = null) {
   }
   
   process.onDidExit(() => {
+    // Update sidebar element
+    if (output.includes('FAIL')) {
+      nova.workspace.config.set(test, "FAIL");
+    }
+    
+    if (output.includes('PASS')) {
+      nova.workspace.config.set(test, "PASS");
+    }
+    
+    // treeView.reload();
+    
     nova.workspace.showInformativeMessage(output.substr(1, 2000));
   });
+}
+
+function showNotification(title, body) {
+  let notification = new NotificationRequest("PHPTestSuite-notification");
+
+  notification.title = title;
+  notification.body = body;
+
+  nova.notifications.add(notification);
 }
 
 class TestItem {
@@ -203,9 +230,17 @@ class TestDataProvider {
         
         if (element.children.length > 0) {
             item.collapsibleState = TreeItemCollapsibleState.Collapsed;
-            item.image = "__filetype.php";
+            item.image = isPest ? "../Images/sidebar-pest-icon/sidebar-pest-icon.png" : "../Images/sidebar-phpunit-icon/sidebar-phpunit-icon.png";
             item.contextValue = "test class";
         } else {
+            if (nova.workspace.config.get(element.name) === "FAIL") {
+              item.image = "../Images/sidebar-warning-icon/sidebar-warning-icon.png";
+            }
+            
+            if (nova.workspace.config.get(element.name) === "PASS") {
+              item.image = "../Images/sidebar-success-icon/sidebar-success-icon.png";
+            }
+            
             item.command = "phptestsuite.doubleClick";
             item.contextValue = "test method";
         }
@@ -221,6 +256,10 @@ class TestDataProvider {
             
         if (nova.fs.stat(nova.path.join(path, test)).isDirectory()) {
           return this.findTests(nova.path.join(path, test));
+        }
+        
+        if (! element.name.toString().endsWith("Test.php")) {
+          return;
         }
         
         const fileContent = nova.fs.open(nova.path.join(path, test));
