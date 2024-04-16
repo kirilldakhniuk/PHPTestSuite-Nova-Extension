@@ -23,8 +23,8 @@ P.S. Feel free to create issues, discussion, etc. 😉
 ### Roadmap
 - [ ] Create a way to show that test is running
 - [x] Add shortcuts
-- [ ] Show success or error icon right next to each test in the sidebar
+- [x] Show success or error icon right next to each test in the sidebar
 - [x] Run a single test in file from the command palette 
-- [ ] Support different projects architecture (DDD, Modules, etc…)
-- [ ] Better tests filtering, right now there’s known issues with a regex
+- [x] Support different projects architecture (DDD, Modules, etc…)
+- [x] Better tests filtering, right now there’s known issues with a regex
 - [ ] Better folding in the sidebar

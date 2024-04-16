@@ -4,10 +4,6 @@ var isPest = true;
 
 
 exports.activate = function() {
-    // Do work when the extension is activated
-    const compositeDisposable = new CompositeDisposable();
-    
-    // Create the TreeView
     treeView = new TreeView("phptestsuite", {
         dataProvider: new TestDataProvider()
     });
@@ -17,19 +13,16 @@ exports.activate = function() {
     });
     
     treeView.onDidExpandElement((element) => {
-        // console.log("Expanded: " + element.name);
+      nova.workspace.config.set(`${element.name}-expanded`, true);
     });
     
     treeView.onDidCollapseElement((element) => {
-        // console.log("Collapsed: " + element.name);
+        nova.workspace.config.remove(`${element.name}-expanded`);
     });
     
     treeView.onDidChangeVisibility(() => {
         // console.log("Visibility Changed");
     });
-    
-    // TreeView implements the Disposable interface
-    nova.subscriptions.add(treeView);
     
     testRunner = getTestRunner();
 }
@@ -58,7 +51,9 @@ nova.commands.register("phptestsuite.runNearest", (editor) => {
   let method;
   
   while (start > 0) {
-    let lineText = editor.activeTextEditor.document.getTextInRange(editor.activeTextEditor.getLineRangeForRange(new Range(start, end)));
+    let lineText = editor.activeTextEditor.document.getTextInRange(
+      editor.activeTextEditor.getLineRangeForRange(new Range(start, end))
+    );
     
     method = getTestMethod(lineText);
     
@@ -70,21 +65,20 @@ nova.commands.register("phptestsuite.runNearest", (editor) => {
     end = end - 1;
   }
   
-  nova.workspace.config.set('latestTest', method);
+  nova.workspace.config.set("latestTest", method);
   
   runTestProcess(method);
 });
 
 nova.commands.register("phptestsuite.runLatest", (editor) => {
-  const latest = nova.workspace.config.get('latestTest');
+  const latest = nova.workspace.config.get("latestTest");
   
   if (latest) {
     runTestProcess(latest);
   } else {
-    nova.workspace.showInformativeMessage('You need to run test first.');
+    nova.workspace.showInformativeMessage("You need to run a test first.");
   }
 });
-
 
 nova.commands.register("phptestsuite.doubleClick", () => {    
     let selection = treeView.selection;
@@ -98,11 +92,11 @@ function getWorkingDirPath() {
       "tests",
       "string"
     ) || nova.workspace.path;
-  if (!workingDir) {
+  if (! workingDir) {
     return null;
   }
-  if (!nova.path.isAbsolute(workingDir)) {
-    if (!nova.workspace.path) {
+  if (! nova.path.isAbsolute(workingDir)) {
+    if (! nova.workspace.path) {
       return null;
     }
     workingDir = nova.path.join(nova.workspace.path, workingDir);
@@ -111,12 +105,12 @@ function getWorkingDirPath() {
 }
 
 function getTestRunner() {
-  if (! nova.fs.stat(nova.path.join(nova.workspace.path, 'composer.json'))) {
+  if (! nova.fs.stat(nova.path.join(nova.workspace.path, "composer.json"))) {
     nova.workspace.showErrorMessage('Project must contain composer.json file in order to run tests.');
     return;
   }
   
-  const fileContent = nova.fs.open(nova.path.join(nova.workspace.path, 'composer.json'));
+  const fileContent = nova.fs.open(nova.path.join(nova.workspace.path, "composer.json"));
   
   if (! fileContent.read().includes('"pestphp/pest"')) {
     isPest = false;
@@ -166,7 +160,6 @@ function runTestProcess(test = null) {
   }
   
   process.onDidExit(() => {
-    // Update sidebar element
     if (output.includes('FAIL')) {
       nova.workspace.config.set(test, "FAIL");
     }
@@ -175,32 +168,10 @@ function runTestProcess(test = null) {
       nova.workspace.config.set(test, "PASS");
     }
     
-    // treeView.reload();
+    treeView.reload();
     
     nova.workspace.showInformativeMessage(output.substr(1, 2000));
   });
-}
-
-function showNotification(title, body) {
-  let notification = new NotificationRequest("PHPTestSuite-notification");
-
-  notification.title = title;
-  notification.body = body;
-
-  nova.notifications.add(notification);
-}
-
-class TestItem {
-    constructor(name) {
-        this.name = name;
-        this.children = [];
-        this.parent = null;
-    }
-    
-    addChild(element) {
-        element.parent = this;
-        this.children.push(element);
-    }
 }
 
 class TestDataProvider {
@@ -211,8 +182,7 @@ class TestDataProvider {
     }
     
     getChildren(element) {
-        // Requests the children of an element
-        if (!element) {
+        if (! element) {
             return this.rootItems;
         }
         else {
@@ -221,7 +191,6 @@ class TestDataProvider {
     }
     
     getParent(element) {
-        // Requests the parent of an element, for use with the reveal() method
         return element.parent;
     }
     
@@ -229,7 +198,9 @@ class TestDataProvider {
         let item = new TreeItem(element.name);
         
         if (element.children.length > 0) {
-            item.collapsibleState = TreeItemCollapsibleState.Collapsed;
+            item.collapsibleState = nova.workspace.config.get(`${element.name}-expanded`) ?
+              TreeItemCollapsibleState.Expanded :
+              TreeItemCollapsibleState.Collapsed;
             item.image = isPest ? "../Images/sidebar-pest-icon/sidebar-pest-icon.png" : "../Images/sidebar-phpunit-icon/sidebar-phpunit-icon.png";
             item.contextValue = "test class";
         } else {
@@ -249,10 +220,10 @@ class TestDataProvider {
     }
     
     findTests(path) {
-      let tests = nova.fs.listdir(path);
+      const tests = nova.fs.listdir(path);
       
       tests.forEach((test) => {
-        let element = new TestItem(test);
+        const element = new TestItem(test);
             
         if (nova.fs.stat(nova.path.join(path, test)).isDirectory()) {
           return this.findTests(nova.path.join(path, test));
@@ -279,6 +250,19 @@ class TestDataProvider {
           this.rootItems.push(element);
         }
       });
+    }
+}
+
+class TestItem {
+    constructor(name) {
+        this.name = name;
+        this.children = [];
+        this.parent = null;
+    }
+    
+    addChild(element) {
+        element.parent = this;
+        this.children.push(element);
     }
 }
 

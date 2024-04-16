@@ -1,3 +1,6 @@
+## Version 1.0.0
+Added a success or error icon next to each test in the sidebar after it runs.
+
 ## Version 0.0.5
 Fixed an issue with displaying non-test classes in the sidebar.
 
