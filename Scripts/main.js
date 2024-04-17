@@ -178,7 +178,19 @@ class TestDataProvider {
     constructor() {
         this.rootItems = [];
         
+        const additionalPaths = ["packages", "modules", "src"];
+        
         this.findTests(nova.path.join(getWorkingDirPath(), "tests"));
+        
+        additionalPaths.forEach((folder) => {
+          if (nova.fs.stat(nova.path.join(getWorkingDirPath(), folder))) {
+            const packages = nova.fs.listdir(nova.path.join(getWorkingDirPath(), folder));
+            
+            packages.forEach((item) => {
+              this.findTests(nova.path.join(getWorkingDirPath(), `${folder}/${item}`));
+            });
+          }
+        });
     }
     
     getChildren(element) {
@@ -220,6 +232,10 @@ class TestDataProvider {
     }
     
     findTests(path) {
+      if (! nova.fs.stat(path).isDirectory()) {
+        return;
+      }
+      
       const tests = nova.fs.listdir(path);
       
       tests.forEach((test) => {

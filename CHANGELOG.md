@@ -1,8 +1,11 @@
+## Version 1.0.1
+* Added support different projects architecture (DDD, Modules, etc…)
+
 ## Version 1.0.0
-Added a success or error icon next to each test in the sidebar after it runs.
+* Added a success or error icon next to each test in the sidebar after it runs.
 
 ## Version 0.0.5
-Fixed an issue with displaying non-test classes in the sidebar.
+* Fixed an issue with displaying non-test classes in the sidebar.
 
 ## Version 0.0.4
 * Updated the info modal to only be 2000 chars long to avoid modal window overlap. This is probably a bug in Nova (reported).
