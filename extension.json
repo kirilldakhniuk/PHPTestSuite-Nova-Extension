@@ -1,86 +1,103 @@
 {
-    "identifier": "kirilldakhnyuk.php-test-suite",
-    "name": "PHP Test Suite",
-    "organization": "Kirill Dakhnyuk",
-    "description": "An easy way to run tests in Laravel and other PHP projects.",
-    "version": "1.0.1",
-    "categories": ["sidebars", "commands"],
-    "bugs": {
-        "url": "https://github.com/KirillDakhnyuk/PHPTestSuite-Nova-Extension/issues"
-    },
-    "homepage": "https://github.com/KirillDakhnyuk/PHPTestSuite-Nova-Extension#readme",
-    "main": "main.js",
-    
-    "activationEvents": [
-        "onLanguage:javascript"
-    ],
-    
-    "entitlements": {
-        "filesystem": "readwrite", "process": true
-    },
-    
-    "sidebars": [
+  "identifier": "kirilldakhniuk.php-test-suite",
+  "name": "PHP Test Suite",
+  "organization": "Kirill Dakhniuk",
+  "description": "An easy way to run tests in Laravel and other PHP projects. Using PHPUnit and PEST.",
+  "version": "1.1",
+  "categories": ["sidebars", "commands"],
+  "bugs": {
+    "url": "https://github.com/kirilldakhniuk/PHPTestSuite-Nova-Extension/issues"
+  },
+  "homepage": "https://github.com/kirilldakhniuk/PHPTestSuite-Nova-Extension#readme",
+  "main": "main.js",
+
+  "activationEvents": ["onLanguage:php"],
+
+  "entitlements": {
+    "filesystem": "readwrite",
+    "process": true
+  },
+
+  "sidebars": [
+    {
+      "id": "phptestsuite",
+      "name": "PHP Test Suite",
+      "smallImage": "sidebar-icon-small",
+      "smallSelectedImage": "sidebar-icon-small",
+      "largeImage": "sidebar-icon-small",
+      "largeSelectedImage": "sidebar-icon-small",
+      "sections": [
         {
-            "id": "phptestsuite",
-            "name": "PHP Test Suite",
-            "smallImage": "sidebar-icon-small",
-            "smallSelectedImage": "sidebar-icon-small",
-            "largeImage": "sidebar-icon-small",
-            "largeSelectedImage": "sidebar-icon-small",
-            "sections": [
-                {
-                    "id": "phptestsuite",
-                    "name": "PHP Test Suite",
-                    "allowMultiple": false,
-                    "contextCommands": [
-                        {
-                            "title": "Run",
-                            "command": "phptestsuite.runFile",
-                            "when": "viewItem != null"
-                        }
-                    ]
-                }
-            ]
+          "id": "phptestsuite",
+          "name": "PHP Test Suite",
+          "allowMultiple": false,
+          "contextCommands": [
+            {
+              "title": "Run",
+              "command": "phptestsuite.runFile",
+              "when": "viewItem != null"
+            }
+          ]
         }
-    ],
-    
-    "commands": {
-        "editor": [],
-        "extensions": [
-            {
-                "title": "PHP Test Suite: Run File",
-                "command": "phptestsuite.runFile",
-                "shortcut": "option-command-t",
-                "filters": {
-                    "syntaxes": ["php"]
-                }
-            },
-            {
-                "title": "PHP Test Suite: Run Latest",
-                "command": "phptestsuite.runLatest",
-                "shortcut": "option-command-l",
-                "filters": {
-                    "syntaxes": ["php"]
-                }
-            },
-            {
-                "title": "PHP Test Suite: Run Nearest",
-                "command": "phptestsuite.runNearest",
-                "shortcut": "option-command-m",
-                "filters": {
-                    "syntaxes": ["php"]
-                }
-            }
-        ],
-        "workspace": [
-            {
-                "title": "PHP Test Suite: Run File",
-                "command": "phptestsuite.runFile"
-            },
-            {
-                "title": "PHP Test Suite: Run Nearest",
-                "command": "phptestsuite.runNearest"
-            }
-        ]
+      ]
     }
+  ],
+
+  "commands": {
+    "editor": [],
+    "extensions": [
+      {
+        "title": "PHP Test Suite: Run File",
+        "command": "phptestsuite.runFile",
+        "shortcut": "option-command-t",
+        "filters": {
+          "syntaxes": ["php"]
+        }
+      },
+      {
+        "title": "PHP Test Suite: Run Latest",
+        "command": "phptestsuite.runLatest",
+        "shortcut": "option-command-l",
+        "filters": {
+          "syntaxes": ["php"]
+        }
+      },
+      {
+        "title": "PHP Test Suite: Run Nearest",
+        "command": "phptestsuite.runNearest",
+        "shortcut": "option-command-m",
+        "filters": {
+          "syntaxes": ["php"]
+        }
+      }
+    ],
+    "workspace": [
+      {
+        "title": "PHP Test Suite: Run File",
+        "command": "phptestsuite.runFile"
+      },
+      {
+        "title": "PHP Test Suite: Run Nearest",
+        "command": "phptestsuite.runNearest"
+      }
+    ]
+  },
+  "config": [
+    {
+      "key": "phptestsuite.runner.prefix",
+      "title": "Prefix",
+      "description": "This could be useful when you need to run test inside a Docker container for example.",
+      "type": "string",
+      "default": ""
+    }
+  ],
+  "config-workspace": [
+    {
+      "key": "phptestsuite.runner.prefix",
+      "title": "Prefix",
+      "description": "This could be useful when you need to run test inside a Docker container for example.",
+      "type": "string",
+      "default": ""
+    }
+  ]
 }

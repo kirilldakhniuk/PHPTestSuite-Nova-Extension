@@ -1,30 +1,47 @@
-👋 Hello! The extension still in the early development phase.
+# PHP Test Suite
 
+Is an extension for Panic's Nova code editor that provides seamless integration for running PHP tests using PHPUnit and PEST. It allows you to execute tests directly from the editor, making your testing workflow faster and more efficient.
 
-**PHPTestSuite** provides integration for **PHPUnit** and **PEST**.
+## Features
+
+- Sidebar integration for browsing and running tests.
+- Command palette support for quick actions like Run File, Run Nearest, Run Latest.
+- Customizable execution prefix for environments like Docker containers (e.g., Laravel Sail/Spin).
+- Double-click functionality to run specific tests from the sidebar.
+- Support for both PHPUnit and PEST frameworks.
 
 ## Requirements
 
-💡 In order to use this extension project must contain composer.json file with a PHPUnit or PEST installed.
+- Your PHP project must include a composer.json file with either PHPUnit or PEST installed as dependencies.
+- PHP installed on your system or accessible via a configured environment.
 
 ## Usage
 
-* Use PHPTestSuite sidebar (double click on the test inside a file will run it or use context menu to run a file)
-- Open the command palette and type `PhpTestSuite`, `RunFile`, `RunNearest`, `RunLatest`, etc.
+### Sidebar
 
-### Configuration
-🎈 There's no configuration at this point.
+- Open the PHPTestSuite sidebar in Nova.
+- Browse your project's tests.
+- Double-click a test method to run it individually.
+- Right-click a file in the sidebar to access the context menu and run the entire file.
 
-### Community
-👋 That's it! Hope you will enjoy using it!
+### Command Palette
 
-P.S. Feel free to create issues, discussion, etc. 😉
+- Open the Command Palette (⌘ + Shift + P).
+- Type "PHP Test Suite" to see available commands, such as:
 
-### Roadmap
-- [ ] Create a way to show that test is running
-- [x] Add shortcuts
-- [x] Show success or error icon right next to each test in the sidebar
-- [x] Run a single test in file from the command palette 
-- [x] Support different projects architecture (DDD, Modules, etc…)
-- [x] Better tests filtering, right now there’s known issues with a regex
-- [ ] Better folding in the sidebar
+* **Run File**: Runs all tests in the current file.
+* **Run Nearest**: Runs the test nearest to your cursor.
+* **Run Latest**: Re-runs the most recently executed test.
+
+## Configuration
+
+You can customize the extension via Nova's preferences:
+
+Go to **Extensions > PHPTestSuite > Preferences**.
+Set a command prefix for test execution. This is useful for containerized environments.
+
+For example, in a Laravel Sail/Spin setup with Docker, you might set the prefix to `sail` or `spin exec php` so tests run inside the container: `spin exec php vendor/bin/phpunit --filter TestMethod`.
+
+## Contributing
+
+Contributions are welcome! Feel free to open issues, submit pull requests, or start discussions on the GitHub repository.
