@@ -3,7 +3,7 @@
   "name": "PHP Test Suite",
   "organization": "Kirill Dakhniuk",
   "description": "An easy way to run tests in Laravel and other PHP projects. Using PHPUnit and PEST.",
-  "version": "1.1",
+  "version": "1.1.1",
   "categories": ["sidebars", "commands"],
   "bugs": {
     "url": "https://github.com/kirilldakhniuk/PHPTestSuite-Nova-Extension/issues"

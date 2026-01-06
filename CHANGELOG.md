@@ -1,3 +1,7 @@
+## Version 1.1.1
+
+- Fixed workspace runner.
+
 ## Version 1.1
 
 - Added ability to add prefix to test runner.

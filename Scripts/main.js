@@ -140,9 +140,8 @@ function getTestMethod(text) {
 }
 
 function runTestProcess(test = null) {
-  const runnerArgs = nova.config.get(RUNNER_PREFIX)
-    ? nova.config.get(RUNNER_PREFIX).split(" ")
-    : [];
+  const runnerPrefix = nova.workspace.config.get(RUNNER_PREFIX) || nova.config.get(RUNNER_PREFIX);
+  const runnerArgs = runnerPrefix ? runnerPrefix.split(" ") : [];
 
   const args = test
     ? runnerArgs.concat([testRunner, "--filter", '"' + test + '"'])
